@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  title: User Management API
+  description: API for managing user information
+  version: 1.0.0
+
+paths:
+  /api/users:
+    post:
+      summary: Create a new user
+      description: Creates a new user and returns the user ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRecord'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+
+
+    get:
+      summary: Get all users
+      description: Retrieves a list of all users
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRecord'
+
+  /api/users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Retrieves a user by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRecord'
+        '404':
+          description: User not found
+
+    put:
+      summary: Update a user
+      description: Updates an existing user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRecord'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRecord'
+        '404':
+          description: User not found
+
+    delete:
+      summary: Delete a user
+      description: Deletes a user by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: User deleted successfully
+        '404':
+          description: User not found
+
+components:
+  schemas:
+    UserRecord:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        userName:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - email
+        - userName
+        - phoneNumber
